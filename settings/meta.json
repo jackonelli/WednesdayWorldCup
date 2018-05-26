@@ -1,0 +1,27 @@
+{
+  "name": "Wednesday World Cup",
+  "root": "/home/jakob/dev/WednesdayWorldCup",
+  "logdir": "log",
+  "data": {
+    "src": "github",
+    "dir": "data",
+    "url": "https://raw.githubusercontent.com/lsv/fifa-worldcup-2018/master/data.json",
+    "extension": ".json"
+  },
+  "players": [
+    "Johan",
+    "Niklas T",
+    "Niklas J",
+    "Nes",
+    "Filip",
+    "Adam",
+    "David",
+    "Viktor",
+    "Daniel",
+    "Jern",
+    "Jesper",
+    "Eric",
+    "Fager",
+    "Svennis"
+  ]
+}

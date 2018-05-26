@@ -1,0 +1,1 @@
+https://github.com/openfootball/world-cup/blob/master/2018--russia/cup.yml
