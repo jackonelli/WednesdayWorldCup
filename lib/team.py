@@ -9,6 +9,7 @@ class Team:
         _log (Logger): Logger
         id (int): Unique key
         name (str): Name of country
+        iso2 (str): Iso2 code
         group (str): Group ID ('Group A', ..., 'Group H')
         points (int): Points in group play
         goals_scored (int): goals scored in group play
@@ -18,6 +19,7 @@ class Team:
     def __init__(self):
         self._log = logging.getLogger(self.__class__.__name__)
         self.id = int()
+        self.iso2 = str()
         self.name = str()
         self.group = str()
         self.points = 0
@@ -27,6 +29,7 @@ class Team:
     def init_from_json(self, dict_):
         self.id = dict_.id
         self.name = dict_.name
+        self.iso2 = dict_.iso2
 
     def set_group(self, group):
         self.group = group
