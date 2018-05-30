@@ -48,7 +48,7 @@ class Game:
     def print(self, teams):
         home_team = teams[self.home_team].name
         away_team = teams[self.away_team].name
-        string = ':{} - {}'.format(home_team, away_team)
+        string = '{} - {}'.format(home_team, away_team)
         if self.finished:
             string += ': {} - {}'.format(self.home_result, self.away_result)
         print(string)

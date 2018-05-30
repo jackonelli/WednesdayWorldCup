@@ -81,7 +81,18 @@ class Tournament(object):
                 self.games[game.id] = game
 
             self.groups[group.id] = group
-            self.groups = OrderedDict(sorted(self.groups.items(), key=lambda t: t[0]))
+        self._sort_groups()
+
+    def _sort_groups(self):
+        """Sort groups and group games
+        Intergroup sort on group name
+        Intragroup sort of group matches on date
+        """
+        self.groups = OrderedDict(sorted(self.groups.items(), key=lambda t: t[0]))
+        for group in self.groups.values():
+            game_dates = [self.games[id_].date for id_ in group.games]
+            group.games = [game for _, game in sorted(zip(game_dates, group.games),
+                                                      key=lambda pair: pair[0])]
 
     def generate_dummy_results(self):
         for game in self.games.values():
