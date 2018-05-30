@@ -8,6 +8,7 @@ class Group:
     Attributes:
         _log (Logger): Logger
         id (str): Unique key
+        name (): Group name
         teams (list): Team ID's
         winner (int): Winning team ID, None if group not finished
         runner_up (int): Runner up team ID, None if group not finished
@@ -18,14 +19,16 @@ class Group:
     def __init__(self):
         self._log = logging.getLogger(self.__class__.__name__)
         self.id = str()
+        self.name = str()
         self.teams = list()
         self.winner = None
         self.runner_up = int()
         self.games = list()
         self.finished = False
 
-    def init_from_json(self, dict_):
-        self.id = 'Grupp ' + dict_.name[-1]
+    def init_from_json(self, dict_, prefix):
+        self.id = dict_.name[-1]
+        self.name = prefix + self.id
 
     def add_game_id(self, game_id):
         self.games.append(game_id)

@@ -70,7 +70,7 @@ class Tournament(object):
         for group_id in data_dict.groups:
             group_data = AttrDict(data_dict.groups[group_id])
             group = Group()
-            group.init_from_json(group_data)
+            group.init_from_json(group_data, self._settings.naming.group_prefix)
             for game_data in group_data.matches:
                 group.add_game_id(game_data.name)
                 group.add_teams(game_data.home_team, game_data.away_team)

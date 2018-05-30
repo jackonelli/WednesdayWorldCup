@@ -25,11 +25,17 @@
     "Svennis"
   ],
   "score": {
-    "outcome" : 1,
+    "outcome": 1,
     "lindqvist_divergence": {
       "k": 3,
       "norm_exponent": 2
     },
-    "use_odds": true
+    "odds": {
+      "use": true,
+      "source": "local"
+    }
+  },
+  "naming": {
+    "group_prefix": "Grupp "
   }
 }
