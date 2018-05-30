@@ -19,10 +19,13 @@ Tournament betting web app.
   - Player class
   - Login
   - Db
-  - Header, footer template
+  - Header, footer template, possibly even split groups/playoff
 
 
 Bracket design origin:
 https://codepen.io/jimmyhayek/pen/yJkdEB/
+
+Sort groups in python layer
+https://stackoverflow.com/questions/12767550/sort-dict-in-jinja2-loop
 
 
