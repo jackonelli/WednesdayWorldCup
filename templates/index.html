@@ -46,24 +46,75 @@
                             {% set team = tournament.teams[team_id] %}
                             <tr class="tournament-group__team">
                                 <td class="tournament-group__country">
-                                    <abbr class="tournament-group__code" title="Canada">{{ team.name}}</abbr>
+                                    <abbr class="tournament-group__code" title="{{ team.name }}">{{ team.fifa_code}}</abbr>
                                     <span class="tournament-group__flag flag-icon flag-icon-{{team.iso2}}"
                                           aria-label="Flag"></span>
                                 </td>
                                 <td class="tournament-group__score">
-                                    <span class="tournament-group__number">1</span>
+                                    <span class="tournament-group__number">{{ team.points }}</span>
                                 </td>
                                 <td class="tournament-group__goals">
-                                    <span class="tournament-group__number">2</span>
+                                    <span class="tournament-group__number">{{ team.goals }}</span>
                                 </td>
                                 <td class="tournament-group__goaldiff">
-                                    <span class="tournament-group__number">3</span>
+                                    <span class="tournament-group__number">{{ team.goal_diff }}</span>
                                 </td>
                             </tr>
                             {% endfor %}
                             </tbody>
                         </table>
                     </div>
+                    {% for game_id in group.games %}
+                        {% set game = tournament.games[game_id] %}
+                        {% set home, away = tournament.teams[game.home_team], tournament.teams[game.away_team] %}
+                        {% if game.finished %}
+                            {% if game.home_result > game.away_result %}
+                                {% set home_ext, away_ext = "--winner", "" %}
+                                {% set home_result, away_result = game.home_result, game.away_result %}
+                            {% else %}
+                                {% set home_ext, away_ext = "", "--winner" %}
+                            {% endif %}
+                        {% else %}
+                            {% set home_result, away_result = "-", "-" %}
+                        {% endif %}
+                    <div class="tournament-group__match" tabindex="0">
+                        <table class="tournament-bracket__table">
+                            <!--<caption class="tournament-bracket__caption">
+                                <time datetime="1998-02-18">18 February 1998</time>
+                            </caption> -->
+                            <thead class="sr-only">
+                            <tr>
+                                <th>Country</th>
+                                <th>Score</th>
+                            </tr>
+                            </thead>
+                            <tbody class="tournament-bracket__content">
+                            <tr class="tournament-bracket__team tournament-bracket__team{{home_ext}}">
+                                <td class="tournament-bracket__country">
+                                    <abbr class="tournament-bracket__code" title="{{ home.name }}">
+                                        {{home.fifa_code}}</abbr>
+                                    <span class="tournament-bracket__flag flag-icon flag-icon-{{home.iso2}}"
+                                          aria-label="Flag"></span>
+                                </td>
+                                <td class="tournament-bracket__score">
+                                    <span class="tournament-bracket__number">{{home_result}}</span>
+                                </td>
+                            </tr>
+                            <tr class="tournament-bracket__team tournament-bracket__team">
+                                <td class="tournament-bracket__country">
+                                    <abbr class="tournament-bracket__code" title="{{ away.name }}">
+                                        {{away.fifa_code}}</abbr>
+                                    <span class="tournament-bracket__flag flag-icon flag-icon-{{away.iso2}}"
+                                          aria-label="Flag"></span>
+                                </td>
+                                <td class="tournament-bracket__score">
+                                    <span class="tournament-bracket__number">{{away_result}}</span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endfor %}
                 </li>
                 {% endfor %}
             </ul>
@@ -72,7 +123,7 @@
     <!-- BRACKET -->
     <div class="tournament-bracket tournament-bracket--rounded">
         <div class="tournament-bracket__round tournament-bracket__round--quarterfinals">
-            <h3 class="tournament-bracket__round-title">Kvartsfinal</h3>
+            <h3 class="tournament-bracket__round-title">Kvartsfinaler</h3>
             <ul class="tournament-bracket__list">
                 <li class="tournament-bracket__item">
                     <div class="tournament-bracket__match" tabindex="0">
@@ -227,7 +278,7 @@
             </ul>
         </div>
         <div class="tournament-bracket__round tournament-bracket__round--semifinals">
-            <h3 class="tournament-bracket__round-title">Semifinals</h3>
+            <h3 class="tournament-bracket__round-title">Semifinaler</h3>
             <ul class="tournament-bracket__list">
                 <li class="tournament-bracket__item">
                     <div class="tournament-bracket__match" tabindex="0">
@@ -307,7 +358,7 @@
             </ul>
         </div>
         <div class="tournament-bracket__round tournament-bracket__round--bronze">
-            <h3 class="tournament-bracket__round-title">Bronze medal game</h3>
+            <h3 class="tournament-bracket__round-title">Bronsmatch</h3>
             <ul class="tournament-bracket__list">
                 <li class="tournament-bracket__item">
                     <div class="tournament-bracket__match" tabindex="0">
@@ -351,7 +402,7 @@
             </ul>
         </div>
         <div class="tournament-bracket__round tournament-bracket__round--gold">
-            <h3 class="tournament-bracket__round-title">Gold medal game</h3>
+            <h3 class="tournament-bracket__round-title">Final</h3>
             <ul class="tournament-bracket__list">
                 <li class="tournament-bracket__item">
                     <div class="tournament-bracket__match" tabindex="0">

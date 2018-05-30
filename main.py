@@ -5,6 +5,7 @@ from lib.tournament import Tournament
 from lib.player import Player
 from util.io import read_json_to_attrdict
 from util.log import setup_logger
+import random
 META_SETTINGS = 'settings/meta.json'
 logger = logging.getLogger(__name__)
 
@@ -15,7 +16,8 @@ def main():
     setup_logger(log_path=os.path.join(settings.root, settings.logdir,  log_file))
     tournament = Tournament(settings)
     tournament.populate()
-    tournament.print_groups()
+    #  tournament.generate_dummy_results()
+    tournament.print_games()
 
 
 if __name__ == '__main__':

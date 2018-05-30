@@ -25,7 +25,7 @@ class Group:
         self.finished = False
 
     def init_from_json(self, dict_):
-        self.id = dict_.name
+        self.id = 'Grupp ' + dict_.name[-1]
 
     def add_game_id(self, game_id):
         self.games.append(game_id)

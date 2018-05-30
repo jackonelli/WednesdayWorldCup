@@ -13,7 +13,7 @@ class Game:
         away_team (int): Away team ID
         type (str): Game type ('Group A', ..., 'Group H', 'round_16', ..., 'round_2')
         game_day (int):
-        date ():
+        date (datetime):
         home_result (int): Goals scored by home team
         away_result (int): Goals scored by away team
         finished (bool): Played indicator
@@ -27,8 +27,9 @@ class Game:
         self.type = str()
         self.game_day = int()
         self.date = None
-        self.home_result = int()
-        self.away_result = int()
+        self.home_result = '-'
+        self.away_result = '-'
+
         self.finished = False
 
     def init_from_json(self, dict_):
@@ -47,7 +48,7 @@ class Game:
     def print(self, teams):
         home_team = teams[self.home_team].name
         away_team = teams[self.away_team].name
-        string = '{} - {}'.format(home_team, away_team)
+        string = ':{} - {}'.format(home_team, away_team)
         if self.finished:
-            string += '({}-{}'.format(self.home_result, self.away_result)
+            string += ': {} - {}'.format(self.home_result, self.away_result)
         print(string)

@@ -19,16 +19,18 @@ class Team:
     def __init__(self):
         self._log = logging.getLogger(self.__class__.__name__)
         self.id = int()
-        self.iso2 = str()
         self.name = str()
+        self.fifa_code = str()
+        self.iso2 = str()
         self.group = str()
         self.points = 0
-        self.goals_scored = 0
-        self.goals_conceded = 0
+        self.goals = 0
+        self.goal_diff = 0
 
     def init_from_json(self, dict_):
         self.id = dict_.id
         self.name = dict_.name
+        self.fifa_code = dict_.fifaCode
         self.iso2 = dict_.iso2
 
     def set_group(self, group):

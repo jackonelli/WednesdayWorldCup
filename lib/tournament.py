@@ -2,7 +2,9 @@
 import os
 import logging
 from attrdict import AttrDict
+from collections import OrderedDict
 import urllib.request
+import random
 from util.io import read_json_to_attrdict
 from lib.team import Team
 from lib.group import Group
@@ -77,7 +79,15 @@ class Tournament(object):
                 game.init_from_json(game_data)
                 game.set_type(group.id)
                 self.games[game.id] = game
+
             self.groups[group.id] = group
+            self.groups = OrderedDict(sorted(self.groups.items(), key=lambda t: t[0]))
+
+    def generate_dummy_results(self):
+        for game in self.games.values():
+            game.finished = True
+            game.home_result = random.randint(0, 4)
+            game.away_result = random.randint(0, 4)
 
     def print_groups(self):
         for _, group in sorted(self.groups.items()):
