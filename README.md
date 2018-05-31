@@ -11,9 +11,10 @@ Tournament betting web app.
  
  ## TODO:
  
-  - Unit tests
-  - Group matches
-  - Group sorting
+  - Tests
+  - Refactor according to https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world 
+  - ~~Group matches~~
+  - ~~Group sorting~~
   - Score function
   - Tournament simulation from predictions
   - Player class
