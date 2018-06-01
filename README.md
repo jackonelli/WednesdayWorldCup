@@ -15,12 +15,13 @@ Tournament betting web app.
   - Refactor according to https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world 
   - ~~Group matches~~
   - ~~Group sorting~~
-  - Score function
-  - Tournament simulation from predictions
+  - Epa read from Johroge-excel
   - Player class
+  - Score function
+  - Header, footer template, possibly even split groups/playoff
+  - Tournament simulation from predictions
   - Login
   - Db
-  - Header, footer template, possibly even split groups/playoff
 
 
 Bracket design origin:
