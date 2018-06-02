@@ -8,7 +8,10 @@ import random
 from util.io import read_json_to_attrdict
 from lib.team import Team
 from lib.group import Group
-from lib.game import Game
+from lib.game import GroupGame
+from lib.playoff import Playoff
+from lib.playoff import Round
+from lib.game import PlayoffGame
 
 
 class Tournament(object):
@@ -34,7 +37,7 @@ class Tournament(object):
         self.teams = dict()
         self.groups = dict()
         self.games = dict()
-        self.playoff = None  # TODO: handle
+        self.playoff = Playoff()  # TODO: handle
 
         # In case of JSON file from Github
         if settings.data.src == 'github':
@@ -75,13 +78,26 @@ class Tournament(object):
                 group.add_game_id(game_data.name)
                 group.add_teams(game_data.home_team, game_data.away_team)
 
-                game = Game()
+                game = GroupGame()
                 game.init_from_json(game_data)
-                game.set_type(group.id)
+                game.set_group(group.id)
                 self.games[game.id] = game
 
             self.groups[group.id] = group
         self._sort_groups()
+
+        for id_ in data_dict.knockout:
+            round_data = AttrDict(data_dict.knockout[id_])
+            round_ = Round(id_)
+
+            for game_data in round_data.matches:
+                round_.add_game_id(game_data.name)
+                game = PlayoffGame()
+                game.init_from_json(game_data)
+                game.set_order(round_.order)
+                self.games[game.id] = game
+            self.playoff.rounds.append(round_)
+        self.playoff.sort()
 
     def _sort_groups(self):
         """Sort groups and group games
@@ -94,16 +110,12 @@ class Tournament(object):
             group.games = [game for _, game in sorted(zip(game_dates, group.games),
                                                       key=lambda pair: pair[0])]
 
-    def generate_dummy_results(self):
+    def generate_dummy_results(self, playoff = False):
         for game in self.games.values():
-            game.finished = True
-            game.home_result = random.randint(0, 4)
-            game.away_result = random.randint(0, 4)
-
-    def print_groups(self):
-        for _, group in sorted(self.groups.items()):
-            group.print(self.teams)
-            print('\n')
+            if isinstance(game, GroupGame) or playoff:
+                game.finished = True
+                game.home_result = random.randint(0, 4)
+                game.away_result = random.randint(0, 4)
 
     def print_games(self):
         prev_game_day = -1
@@ -115,3 +127,11 @@ class Tournament(object):
                 print('\nDay: {}\t {}\n'.format(game.game_day, game.date))
                 game.print(self.teams)
             prev_game_day = game.game_day
+
+    def print_groups(self):
+        for _, group in sorted(self.groups.items()):
+            group.print(self.teams)
+            print('\n')
+
+    def print_playoff(self):
+        self.playoff.print(self.teams, self.games)

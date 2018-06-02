@@ -16,8 +16,18 @@ def main():
     setup_logger(log_path=os.path.join(settings.root, settings.logdir,  log_file))
     tournament = Tournament(settings)
     tournament.populate()
+    tournament.groups['A'].winner = tournament.groups['A'].teams[0]
+    tournament.groups['A'].runner_up = tournament.groups['A'].teams[1]
+    tournament.groups['A'].finished = True
+
+    tournament.groups['B'].winner = tournament.groups['B'].teams[1]
+    tournament.groups['B'].runner_up = tournament.groups['B'].teams[0]
+    tournament.groups['B'].finished = True
+
+    tournament.playoff.fill_games(tournament.teams, tournament.groups, tournament.games)
+    tournament.print_playoff()
+
     #  tournament.generate_dummy_results()
-    tournament.print_games()
 
 
 if __name__ == '__main__':

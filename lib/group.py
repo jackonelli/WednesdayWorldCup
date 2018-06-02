@@ -12,7 +12,7 @@ class Group:
         teams (list): Team ID's
         winner (int): Winning team ID, None if group not finished
         runner_up (int): Runner up team ID, None if group not finished
-        games (list): Game ID's
+        games (list): GroupGame ID's
         finished (bool): All matches played
     """
 
@@ -21,12 +21,13 @@ class Group:
         self.id = str()
         self.name = str()
         self.teams = list()
-        self.winner = None
+        self.winner = int()
         self.runner_up = int()
         self.games = list()
         self.finished = False
 
     def init_from_json(self, dict_, prefix):
+        """TODO: Validate self.id better"""
         self.id = dict_.name[-1]
         self.name = prefix + self.id
 

@@ -3,7 +3,7 @@ import logging
 from datetime import datetime
 
 
-class Game:
+class Game(object):
     """Game class
 
     Attributes:
@@ -11,7 +11,6 @@ class Game:
         id (int): Unique key
         home_team (int): Home team ID
         away_team (int): Away team ID
-        type (str): Game type ('Group A', ..., 'Group H', 'round_16', ..., 'round_2')
         game_day (int):
         date (datetime):
         home_result (int): Goals scored by home team
@@ -24,7 +23,6 @@ class Game:
         self.id = int()
         self.home_team = int()
         self.away_team = int()
-        self.type = str()
         self.game_day = int()
         self.date = None
         self.home_result = '-'
@@ -42,13 +40,56 @@ class Game:
         self.away_result = dict_.away_result
         self.finished = dict_.finished
 
-    def set_type(self, type):
-        self.type = type
-
     def print(self, teams):
-        home_team = teams[self.home_team].name
-        away_team = teams[self.away_team].name
-        string = '{} - {}'.format(home_team, away_team)
+        string = str()
+        home_team = teams.get(self.home_team)
+        away_team = teams.get(self.away_team)
+        if home_team and away_team:
+            home_team_name = home_team.name
+            away_team_name = away_team.name
+            string = '{} - {}'.format(home_team_name, away_team_name)
         if self.finished:
             string += ': {} - {}'.format(self.home_result, self.away_result)
+        string += ' ' + str(self.date)
         print(string)
+
+
+class GroupGame(Game):
+    """Game sub class for group play
+
+    Attributes:
+        group (str): Group of game
+    """
+
+    def __init__(self):
+        super(self.__class__, self).__init__()
+        self.group = str()
+
+    def set_group(self, group_id):
+        self.group = group_id
+
+
+class PlayoffGame(Game):
+    """Game sub class for playoff
+
+    Attributes:
+        self.home_parent (int, str): ID of previous game, the winner of which is home team
+            If first round of playoff: str, e.g. 'winner_b' = The winner of group B
+        self.away_parent (int, str): ID of previous game, the winner of which is away team
+    """
+
+    def __init__(self):
+        super(self.__class__, self).__init__()
+        self.group = str()
+        self.home_team = int()  # Override parent class
+        self.away_team = int()
+        self.home_parent = None
+        self.away_parent = None
+
+    def init_from_json(self, dict_):
+        super(self.__class__, self).init_from_json(dict_)
+        self.home_parent = dict_.home_team
+        self.away_parent = dict_.away_team
+
+    def set_order(self, order):
+        self.group = order
