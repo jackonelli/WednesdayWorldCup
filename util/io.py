@@ -2,6 +2,7 @@
 import json
 import logging
 from attrdict import AttrDict
+from collections import OrderedDict
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +17,7 @@ def read_json_to_attrdict(filepath):
     """
 
     with open(filepath, 'r') as json_file:
-        dict_ = json.load(json_file)
+        dict_ = json.load(json_file, object_pairs_hook=OrderedDict)
     return AttrDict(dict_)
 
 
