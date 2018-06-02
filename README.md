@@ -1,5 +1,32 @@
-https://github.com/openfootball/world-cup/blob/master/2018--russia/cup.yml
+# WEDNESDAY WORLD CUP
+
+Tournament betting web app.
+
+## Brave intentions:
+
+ - Automatic generation and update of tournament games
+ - User (Player) login and db-storage of predictions
+ - Continuous score
+ - Round by round score presentation
+
+ ## TODO:
+
+  - Tests
+  - Refactor according to https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world
+  - ~~Group matches~~
+  - ~~Group sorting~~
+  - Epa read from Johroge-excel
+  - Print --> retr + to string
+  - Player class
+  - Score function
+  - Header, footer template, possibly even split groups/playoff
+  - Tournament simulation from predictions
+  - Login
+  - Db
+
+
+Bracket design origin:
 https://codepen.io/jimmyhayek/pen/yJkdEB/
 
-
-Print --> retr + to string
+Sort groups in python layer
+https://stackoverflow.com/questions/12767550/sort-dict-in-jinja2-loop
