@@ -25,10 +25,10 @@ class Playoff:
         for round_ in self.rounds[1:]:
             round_.fill_games(teams)
 
-    def print(self, teams, games):
+    def print(self):
         print('Playoff')
         for round_ in self.rounds:
-            round_.print(teams, games)
+            round_.print()
 
 
 class Round:
@@ -85,15 +85,14 @@ class Round:
 
         return order
 
-    def add_game_id(self, game_id):
-        self.games.append(game_id)
+    def add_game(self, game):
+        """Validate game"""
+        self.games.append(game)
 
-    def fill_games_first(self, groups, games):
-        for game_id in self.games:
-            game = games[game_id]
+    def fill_games_first(self, groups):
+        for game in self.games:
             home_type, home_group = self._get_parent_json(game.home_parent)
             away_type, away_group = self._get_parent_json(game.away_parent)
-            print(home_group)
             group = groups.get(home_group)
             if group and group.finished:
                 if home_type == 'winner':
@@ -111,7 +110,6 @@ class Round:
                     game.away_team = group.runner_up
                 else:
                     self._log.error('Wrong parent string')
-            print(game.home_team)
 
     def fill_games(self, teams):
         pass
@@ -132,9 +130,9 @@ class Round:
 
         return type_, group_id
 
-    def print(self, teams, games):
+    def print(self):
         print(self.name)
         print('-------')
-        for game_id in self.games:
-            games[game_id].print(teams)
+        for game in self.games:
+            game.print()
         print('-------')

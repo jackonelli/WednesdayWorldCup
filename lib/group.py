@@ -31,34 +31,35 @@ class Group:
         self.id = dict_.name[-1]
         self.name = prefix + self.id
 
-    def add_game_id(self, game_id):
-        self.games.append(game_id)
+    def add_game(self, game):
+        """TODO: Validate game"""
+        self.games.append(game)
 
     def add_teams(self, home, away):
-        game_teams = [home, away]
-        self.teams = list(set(self.teams + game_teams))  # Add new teams to group
+        ids = [team.id for team in self.teams]
+        if home.id not in ids:
+            self.teams.append(home)
+        if away.id not in ids:
+            self.teams.append(away)
 
-    def set_group_status(self, games):
+    def set_group_status(self):
         self.finished = True
-        for game_id in self.games:
-            game = games[game_id]
+        for game in self.games:
             self.finished = self.finished and game.finished
 
-    def sort(self, teams, games):
-        team_points = [teams[id_].points for id_ in self.teams]
-        self.teams = [team_id for _, team_id in sorted(zip(team_points, self.teams),
-                                                       key=lambda pair: pair[0], reverse=True)]
+    def sort(self):
+        self.teams.sort(key=lambda team: team.points, reverse=True)
+        self.games.sort(key=lambda game: game.date)
 
-        game_dates = [games[id_].date for id_ in self.games]
-        self.games = [game for _, game in sorted(zip(game_dates, self.games),
-                                                 key=lambda pair: pair[0])]
+        #game_dates = [games[id_].date for id_ in self.games]
+        #self.games = [game for _, game in sorted(zip(game_dates, self.games),
+        #                                         key=lambda pair: pair[0])]
 
-    def evaluate(self, games, teams):
-        for game_id in self.games:
-            game = games[game_id]
+    def evaluate(self):
+        for game in self.games:
             if game.finished:
-                home_team = teams[game.home_team]
-                away_team = teams[game.away_team]
+                home_team = game.home_team
+                away_team = game.away_team
                 if game.home_result > game.away_result:
                     home_team.points += 3
                 elif game.home_result == game.away_result:
@@ -72,11 +73,18 @@ class Group:
                 home_team.goal_diff += game.home_result - game.away_result
                 away_team.goals += game.away_result
                 away_team.goal_diff += game.away_result - game.home_result
-        self.sort(teams, games)
+        self.sort()
 
-    def print(self, teams):
-        print(self.id)
+    def set_winner_and_loser(self):
+        self.set_group_status()
+        self.sort()
+        if self.finished:
+            self.winner = self.teams[0]
+            self.runner_up = self.teams[1]
+
+    def print(self):
+        print(self.name)
         print('-------')
-        for team_id in self.teams:
-            teams[team_id].print()
+        for team in self.teams:
+            team.print()
 
