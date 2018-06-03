@@ -1,6 +1,6 @@
 import os
 import logging
-from _datetime import datetime
+from datetime import datetime
 from lib.tournament import Tournament
 from lib.player import Player
 from util.io import read_json_to_attrdict

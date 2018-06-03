@@ -123,8 +123,6 @@ class Tournament(object):
 
     def print_games(self):
         prev_game_day = -1
-        print(self.games[1].game_day)
-        #for game in sorted(self.games, key=lambda id_: self.games[id_].game_day):
         for game in sorted(self.games.values(), key=lambda game: game.game_day):
 
             if game.game_day == prev_game_day:
