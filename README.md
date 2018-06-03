@@ -28,5 +28,5 @@ Tournament betting web app.
 Bracket design origin:
 https://codepen.io/jimmyhayek/pen/yJkdEB/
 
-Sort groups in python layer
-https://stackoverflow.com/questions/12767550/sort-dict-in-jinja2-loop
+Plot:
+https://www.youtube.com/watch?v=BIttXQO0bXw
