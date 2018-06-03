@@ -1,6 +1,7 @@
 """Game module"""
 import logging
 from datetime import datetime
+from lib.team import Team
 
 
 class Game(object):
@@ -21,8 +22,8 @@ class Game(object):
     def __init__(self):
         self._log = logging.getLogger(self.__class__.__name__)
         self.id = int()
-        self.home_team = int()
-        self.away_team = int()
+        self.home_team = Team()
+        self.away_team = Team()
         self.game_day = int()
         self.date = None
         self.home_result = '-'
@@ -30,24 +31,20 @@ class Game(object):
 
         self.finished = False
 
-    def init_from_json(self, dict_):
+    def init_from_json(self, dict_, teams):
         self.id = dict_.name
-        self.home_team = dict_.home_team
-        self.away_team = dict_.away_team
+        self.home_team = teams.get(dict_.home_team)
+        self.away_team = teams.get(dict_.away_team)
         self.game_day = dict_.matchday
         self.date = datetime.strptime(''.join(dict_.date.rsplit(':', 1)), '%Y-%m-%dT%H:%M:%S%z')
         self.home_result = dict_.home_result
         self.away_result = dict_.away_result
         self.finished = dict_.finished
 
-    def print(self, teams):
+    def print(self):
         string = str()
-        home_team = teams.get(self.home_team)
-        away_team = teams.get(self.away_team)
-        if home_team and away_team:
-            home_team_name = home_team.name
-            away_team_name = away_team.name
-            string = '{} - {}'.format(home_team_name, away_team_name)
+        if self.home_team and self.away_team:
+            string = '{} - {}'.format(self.home_team.name, self.away_team.name)
         if self.finished:
             string += ': {} - {}'.format(self.home_result, self.away_result)
         string += ' ' + str(self.date)
@@ -58,15 +55,15 @@ class GroupGame(Game):
     """Game sub class for group play
 
     Attributes:
-        group (str): Group of game
+        group (Group): Group of game
     """
 
     def __init__(self):
         super(self.__class__, self).__init__()
         self.group = str()
 
-    def set_group(self, group_id):
-        self.group = group_id
+    def set_group(self, group):
+        self.group = group
 
 
 class PlayoffGame(Game):
@@ -80,16 +77,16 @@ class PlayoffGame(Game):
 
     def __init__(self):
         super(self.__class__, self).__init__()
-        self.group = str()
-        self.home_team = int()  # Override parent class
-        self.away_team = int()
+        self.order = int()
+        self.home_team = None  # Override parent class
+        self.away_team = None
         self.home_parent = None
         self.away_parent = None
 
-    def init_from_json(self, dict_):
-        super(self.__class__, self).init_from_json(dict_)
+    def init_from_json(self, dict_, teams):
+        super(self.__class__, self).init_from_json(dict_, teams)
         self.home_parent = dict_.home_team
         self.away_parent = dict_.away_team
 
     def set_order(self, order):
-        self.group = order
+        self.order = order

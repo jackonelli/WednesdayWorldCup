@@ -42,8 +42,7 @@
                             </tr>
                             </thead>
                             <tbody class="tournament-group__content">
-                            {% for team_id in group.teams %}
-                            {% set team = tournament.teams[team_id] %}
+                            {% for team in group.teams %}
                             <tr class="tournament-group__team">
                                 <td class="tournament-group__country">
                                     <abbr class="tournament-group__code" title="{{ team.name }}">{{ team.fifa_code}}</abbr>
@@ -64,9 +63,8 @@
                             </tbody>
                         </table>
                     </div>
-                    {% for game_id in group.games %}
-                        {% set game = tournament.games[game_id] %}
-                        {% set home, away = tournament.teams[game.home_team], tournament.teams[game.away_team] %}
+                    {% for game in group.games %}
+                        {% set home, away = game.home_team, game.away_team %}
                         {% if game.finished %}
                             {% if game.home_result > game.away_result %}
                                 {% set home_ext, away_ext = "--winner", "" %}

@@ -51,8 +51,7 @@ class Tournament(object):
 
     def evaluate(self):
         for group in self.groups.values():
-            group.evaluate(self.games, self.teams)
-        self.playoff.evaluate()
+            group.evaluate()
 
     def populate(self):
         """Set current tournament state."""
@@ -82,13 +81,13 @@ class Tournament(object):
             group = Group()
             group.init_from_json(group_data, self._settings.naming.group_prefix)
             for game_data in group_data.matches:
-                group.add_game_id(game_data.name)
-                group.add_teams(game_data.home_team, game_data.away_team)
-
                 game = GroupGame()
-                game.init_from_json(game_data)
-                game.set_group(group.id)
-                self.games[game.id] = game
+                game.init_from_json(game_data, self.teams)
+                game.set_group(group)
+                self.games[game.id] = game  # maybe redundant
+
+                group.add_game(game)
+                group.add_teams(game.home_team, game.away_team)
 
             self.groups[group.id] = group
         self._sort_groups()
@@ -98,11 +97,11 @@ class Tournament(object):
             round_ = Round(id_)
 
             for game_data in round_data.matches:
-                round_.add_game_id(game_data.name)
                 game = PlayoffGame()
-                game.init_from_json(game_data)
+                game.init_from_json(game_data, self.teams)
                 game.set_order(round_.order)
                 self.games[game.id] = game
+                round_.add_game(game)
             self.playoff.rounds.append(round_)
         self.playoff.sort()
 
@@ -113,7 +112,7 @@ class Tournament(object):
         """
         self.groups = OrderedDict(sorted(self.groups.items(), key=lambda t: t[0]))
         for group in self.groups.values():
-            group.sort(self.teams, self.games)
+            group.sort()
 
     def generate_dummy_results(self, fix_seed=False, playoff=False):
         for game in self.games.values():
@@ -124,19 +123,21 @@ class Tournament(object):
 
     def print_games(self):
         prev_game_day = -1
-        for game_id in sorted(self.games, key=lambda id_: self.games[id_].game_day):
-            game = self.games[game_id]
+        print(self.games[1].game_day)
+        #for game in sorted(self.games, key=lambda id_: self.games[id_].game_day):
+        for game in sorted(self.games.values(), key=lambda game: game.game_day):
+
             if game.game_day == prev_game_day:
-                game.print(self.teams)
+                game.print()
             else:
                 print('\nDay: {}\t {}\n'.format(game.game_day, game.date))
-                game.print(self.teams)
+                game.print()
             prev_game_day = game.game_day
 
     def print_groups(self):
         for _, group in self.groups.items():
-            group.print(self.teams)
+            group.print()
             print('\n')
 
     def print_playoff(self):
-        self.playoff.print(self.teams, self.games)
+        self.playoff.print()

@@ -19,8 +19,8 @@ def main():
     #tournament.print_playoff()
     tournament.generate_dummy_results(fix_seed=True)
     tournament.evaluate()
-    tournament.print_groups()
-    #tournament.print_games()
+    #tournament.print_groups()
+    tournament.print_games()
 
 
 if __name__ == '__main__':

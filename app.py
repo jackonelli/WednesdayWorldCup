@@ -11,7 +11,8 @@ def tournament():
     settings = read_json_to_attrdict(META_SETTINGS)
     world_cup = Tournament(settings)
     world_cup.populate()
-    #  world_cup.generate_dummy_results()
+    #world_cup.generate_dummy_results()
+    #world_cup.evaluate()
 
     return render_template('index.html', tournament=world_cup)
 
