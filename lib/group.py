@@ -38,9 +38,45 @@ class Group:
         game_teams = [home, away]
         self.teams = list(set(self.teams + game_teams))  # Add new teams to group
 
+    def set_group_status(self, games):
+        self.finished = True
+        for game_id in self.games:
+            game = games[game_id]
+            self.finished = self.finished and game.finished
+
+    def sort(self, teams, games):
+        team_points = [teams[id_].points for id_ in self.teams]
+        self.teams = [team_id for _, team_id in sorted(zip(team_points, self.teams),
+                                                       key=lambda pair: pair[0], reverse=True)]
+
+        game_dates = [games[id_].date for id_ in self.games]
+        self.games = [game for _, game in sorted(zip(game_dates, self.games),
+                                                 key=lambda pair: pair[0])]
+
+    def evaluate(self, games, teams):
+        for game_id in self.games:
+            game = games[game_id]
+            if game.finished:
+                home_team = teams[game.home_team]
+                away_team = teams[game.away_team]
+                if game.home_result > game.away_result:
+                    home_team.points += 3
+                elif game.home_result == game.away_result:
+                    home_team.points += 1
+                    away_team.points += 1
+                elif game.home_result < game.away_result:
+                    away_team.points += 3
+                else:
+                    self._log.error('Failed result comparison in game: {}'.format(game.id))
+                home_team.goals += game.home_result
+                home_team.goal_diff += game.home_result - game.away_result
+                away_team.goals += game.away_result
+                away_team.goal_diff += game.away_result - game.home_result
+        self.sort(teams, games)
+
     def print(self, teams):
         print(self.id)
         print('-------')
         for team_id in self.teams:
-            print(teams[team_id].name)
+            teams[team_id].print()
 

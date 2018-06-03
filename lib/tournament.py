@@ -16,6 +16,8 @@ from lib.game import PlayoffGame
 
 class Tournament(object):
     """Tournament class
+    TODO: Real objects instead of ID's
+    TODO: Separate groups class
 
     Attributes:
         _log (Logger): Logger
@@ -23,7 +25,7 @@ class Tournament(object):
         teams (dict): Dict of all Teams
         groups (dict): Dict of all Groups
         games (dict): Dict of all Games
-        playoff: TODO
+        playoff (Playoff)
     """
 
     def __init__(self, settings):
@@ -37,7 +39,7 @@ class Tournament(object):
         self.teams = dict()
         self.groups = dict()
         self.games = dict()
-        self.playoff = Playoff()  # TODO: handle
+        self.playoff = Playoff()
 
         # In case of JSON file from Github
         if settings.data.src == 'github':
@@ -46,6 +48,11 @@ class Tournament(object):
             self.data_file = 'data' + self._settings.data.extension
         else:
             self._log.error('No other source than Github found yet')
+
+    def evaluate(self):
+        for group in self.groups.values():
+            group.evaluate(self.games, self.teams)
+        self.playoff.evaluate()
 
     def populate(self):
         """Set current tournament state."""
@@ -106,11 +113,9 @@ class Tournament(object):
         """
         self.groups = OrderedDict(sorted(self.groups.items(), key=lambda t: t[0]))
         for group in self.groups.values():
-            game_dates = [self.games[id_].date for id_ in group.games]
-            group.games = [game for _, game in sorted(zip(game_dates, group.games),
-                                                      key=lambda pair: pair[0])]
+            group.sort(self.teams, self.games)
 
-    def generate_dummy_results(self, playoff = False):
+    def generate_dummy_results(self, fix_seed=False, playoff=False):
         for game in self.games.values():
             if isinstance(game, GroupGame) or playoff:
                 game.finished = True
@@ -129,7 +134,7 @@ class Tournament(object):
             prev_game_day = game.game_day
 
     def print_groups(self):
-        for _, group in sorted(self.groups.items()):
+        for _, group in self.groups.items():
             group.print(self.teams)
             print('\n')
 

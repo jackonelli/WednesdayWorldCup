@@ -35,3 +35,7 @@ class Team:
 
     def set_group(self, group):
         self.group = group
+
+    def print(self):
+        string = '{}\t{}p'.format(self.name, self.points)
+        print(string)
