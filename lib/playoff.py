@@ -19,11 +19,15 @@ class Playoff:
     def sort(self):
         self.rounds.sort(key=lambda round_: round_.order, reverse=True)
 
-    def fill_games(self, teams, groups, games):
+    def evaluate(self, groups):
         """ Sorted rounds required!"""
-        self.rounds[0].fill_games_first(groups, games)
+        first_round = self.rounds[0]
+        first_round.fill_games_first_round(groups)
+        previous_round = first_round
         for round_ in self.rounds[1:]:
-            round_.fill_games(teams)
+            round_.fill_games(previous_round)
+            if round_.order > 3:
+                previous_round = round_
 
     def print(self):
         print('Playoff')
@@ -39,14 +43,16 @@ class Round:
         id (str): ID from data source
         order (int): Power of two, showing final distance. (Number of teams in round)
         name (str): Name of round (displayed)
-        games (list):
+        parent (Round or None): None if first round
+        games (dict):
     """
     def __init__(self, id_):
         self._log = logging.getLogger(self.__class__.__name__)
         self.id = str()
         self.order = self.get_order(id_)
         self.name = str()
-        self.games = list()
+        self.parent = None
+        self.games = dict()
         self.set_round_name()
 
     def set_round_name(self):
@@ -67,7 +73,7 @@ class Round:
 
     def get_order(self, round_id):
         """Unnecessary to recompile regex but nice isolation for new data sources"""
-        pattern =  re.compile(r'[a-z_]+(\d+)([a-z_]*)')
+        pattern = re.compile(r'[a-z_]+(\d+)([a-z_]*)')
         match = pattern.match(round_id)
         order = None
         special = None
@@ -85,15 +91,19 @@ class Round:
 
         return order
 
+    def set_parent_round(self, round_):
+        """TODO: Validate"""
+        self.parent = round_
+
     def add_game(self, game):
         """Validate game"""
-        self.games.append(game)
+        self.games[game.id] = game
 
-    def fill_games_first(self, groups):
-        for game in self.games:
-            home_type, home_group = self._get_parent_json(game.home_parent)
-            away_type, away_group = self._get_parent_json(game.away_parent)
-            group = groups.get(home_group)
+    def fill_games_first_round(self, groups):
+        for game in self.games.values():
+            home_type, home_group_key = self._get_parent_json(game.home_parent)
+            away_type, away_group_key = self._get_parent_json(game.away_parent)
+            group = groups.get(home_group_key)
             if group and group.finished:
                 if home_type == 'winner':
                     game.home_team = group.winner
@@ -102,7 +112,7 @@ class Round:
                 else:
                     self._log.error('Wrong parent string')
 
-            group = groups.get(away_group)
+            group = groups.get(away_group_key)
             if group and group.finished:
                 if away_type == 'winner':
                     game.away_team = group.winner
@@ -111,8 +121,25 @@ class Round:
                 else:
                     self._log.error('Wrong parent string')
 
-    def fill_games(self, teams):
-        pass
+    def fill_games(self, parent_round):
+        for game in self.games.values():
+            parent_home_game = parent_round.games.get(game.home_parent)
+            if parent_home_game and parent_home_game.finished:
+                if self.order == 3:
+                    game.home_team = parent_home_game.get_loser()
+                else:
+                    game.home_team = parent_home_game.get_winner()
+
+            parent_away_game = parent_round.games.get(game.away_parent)
+            if parent_away_game and parent_away_game.finished:
+                if self.order == 3:
+                    game.away_team = parent_away_game.get_loser()
+                else:
+                    game.away_team = parent_away_game.get_winner()
+
+
+
+
 
     def _get_parent_json(self, string):
         """Unnecessary to recompile regex but nice isolation for new data sources"""
@@ -133,6 +160,6 @@ class Round:
     def print(self):
         print(self.name)
         print('-------')
-        for game in self.games:
+        for game in self.games.values():
             game.print()
         print('-------')

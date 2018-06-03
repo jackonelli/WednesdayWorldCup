@@ -74,10 +74,10 @@ class Group:
                 away_team.goals += game.away_result
                 away_team.goal_diff += game.away_result - game.home_result
         self.sort()
+        self.set_winner_and_loser()
 
     def set_winner_and_loser(self):
         self.set_group_status()
-        self.sort()
         if self.finished:
             self.winner = self.teams[0]
             self.runner_up = self.teams[1]

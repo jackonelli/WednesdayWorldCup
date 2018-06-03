@@ -90,3 +90,27 @@ class PlayoffGame(Game):
 
     def set_order(self, order):
         self.order = order
+
+    def get_winner(self):
+        """TODO raise error"""
+        if self.home_result > self.away_result:
+            winner = self.home_team
+        elif self.home_result < self.away_result:
+            winner = self.away_team
+        else:
+            winner = None
+            self._log.error('No winner in playoff game id: {}'.format(self.id))
+
+        return winner
+
+    def get_loser(self):
+        """TODO raise error"""
+        if self.home_result > self.away_result:
+            loser = self.away_team
+        elif self.home_result < self.away_result:
+            loser = self.home_team
+        else:
+            loser = None
+            self._log.error('No winner in playoff game id: {}'.format(self.id))
+
+        return loser

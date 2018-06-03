@@ -16,7 +16,6 @@ from lib.game import PlayoffGame
 
 class Tournament(object):
     """Tournament class
-    TODO: Real objects instead of ID's
     TODO: Separate groups class
 
     Attributes:
@@ -52,6 +51,7 @@ class Tournament(object):
     def evaluate(self):
         for group in self.groups.values():
             group.evaluate()
+        self.playoff.evaluate(self.groups)
 
     def populate(self):
         """Set current tournament state."""
@@ -115,11 +115,14 @@ class Tournament(object):
             group.sort()
 
     def generate_dummy_results(self, fix_seed=False, playoff=False):
+        """TODO: Fix seed"""
         for game in self.games.values():
             if isinstance(game, GroupGame) or playoff:
                 game.finished = True
                 game.home_result = random.randint(0, 4)
                 game.away_result = random.randint(0, 4)
+                if isinstance(game, PlayoffGame) and game.home_result == game.away_result:
+                    game.home_result += 1
 
     def print_games(self):
         prev_game_day = -1
