@@ -10,7 +10,7 @@ Tournament betting web app.
  - Round by round score presentation
 
 ## Run
-Requires `pip` and `virtualenv`
+Requires `python3`, `pip` and `virtualenv`
 
 ```bash
 git clone
