@@ -10,10 +10,11 @@ Tournament betting web app.
  - Round by round score presentation
 
 ## Run
+Requires `pip` and `virtualenv`
 
 ```bash
 git clone
-cd WednesdayWorldCup
+cd your_repo_name
 virtualenv -p /usr/bin/python3 venv
 export FLASK_APP=tournament.py
 flask run
