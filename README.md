@@ -9,21 +9,7 @@ Tournament betting web app.
  - Continuous score
  - Round by round score presentation
 
- ## TODO:
-
-  - Tests
-  - Refactor according to https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world
-  - ~~Group matches~~
-  - ~~Group sorting~~
-  - Epa read from Johroge-excel
-  - Print --> retr + to string
-  - Player class
-  - Score function
-  - Header, footer template, possibly even split groups/playoff
-  - Tournament simulation from predictions
-  - Login
-  - Db
-
+## Inspiration
 
 Bracket design origin:
 https://codepen.io/jimmyhayek/pen/yJkdEB/
