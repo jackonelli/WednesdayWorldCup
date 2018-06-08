@@ -63,6 +63,8 @@ class Tournament(object):
             self._log.error('No other source than Github found yet')
 
     def _update_data(self, src):
+        if not os.path.exists(self.data_root):
+            os.makedirs(self.data_root)
         if src == 'github':
             urllib.request.urlretrieve(self.url, os.path.join(self.data_root, self.data_file))
         else:
