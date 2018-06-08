@@ -1,7 +1,7 @@
 """Playoff module"""
 import logging
-from copy import deepcopy
 import re
+from lib.game import PlayoffGame
 
 
 class Playoff:
@@ -13,14 +13,23 @@ class Playoff:
     """
 
     def __init__(self):
+        """Init playoff"""
         self._log = logging.getLogger(self.__class__.__name__)
         self.rounds = list()
 
     def sort(self):
+        """Sort rounds based on order"""
         self.rounds.sort(key=lambda round_: round_.order, reverse=True)
 
     def evaluate(self, groups):
-        """ Sorted rounds required!"""
+        """Evaluate playoff
+
+        Sorted rounds required!
+
+        Args:
+            groups (dict): Dictionary of group_id (str): Group
+        """
+
         first_round = self.rounds[0]
         first_round.fill_games_first_round(groups)
         previous_round = first_round
@@ -44,9 +53,10 @@ class Round:
         order (int): Power of two, showing final distance. (Number of teams in round)
         name (str): Name of round (displayed)
         parent (Round or None): None if first round
-        games (dict):
+        games (dict): Dictionary of game_id (int): PlayoffGame
     """
     def __init__(self, id_):
+        """Init round"""
         self._log = logging.getLogger(self.__class__.__name__)
         self.id = str()
         self.order = self.get_order(id_)
@@ -56,7 +66,11 @@ class Round:
         self.set_round_name()
 
     def set_round_name(self):
-        """TODO: Fix namning propagation from meta settings"""
+        """Transform order to real name
+
+        TODO: Fix namning propagation from meta settings
+        """
+
         if self.order > 8 and self.order % 2 == 0:
             self.name = str(self.order//2) + '-delsfinal'
         elif self.order == 8:
@@ -72,7 +86,15 @@ class Round:
                               .format(self.order, self.id))
 
     def get_order(self, round_id):
-        """Unnecessary to recompile regex but nice isolation for new data sources"""
+        """Get order from round name in JSON data
+
+        Unnecessary to recompile regex but nice isolation for new data sources
+
+        Args:
+            round_id (str): Name of round in JSON data,
+                e.g. round_2_loser equals bronze game ==> order 3
+        """
+
         pattern = re.compile(r'[a-z_]+(\d+)([a-z_]*)')
         match = pattern.match(round_id)
         order = None
@@ -92,14 +114,33 @@ class Round:
         return order
 
     def set_parent_round(self, round_):
-        """TODO: Validate"""
+        """Set parent round
+
+        Rounds are hierarchical and you can quasi-recursively order them. TODO: Validate
+
+        round_ (Round)
+        """
+
         self.parent = round_
 
     def add_game(self, game):
-        """Validate game"""
-        self.games[game.id] = game
+        """Add game to playoff
+
+        Args:
+            game (PlayoffGame)
+        """
+        if isinstance(game, PlayoffGame):
+            self.games[game.id] = game
+        else:
+            self._log.error('Not a playoff game: {}'.format(game.__str__))
 
     def fill_games_first_round(self, groups):
+        """Fill games based on group results
+
+        Args:
+            groups (dict): Dictionary with group_id (str): Group
+        """
+
         for game in self.games.values():
             home_type, home_group_key = self._get_parent_json(game.home_parent)
             away_type, away_group_key = self._get_parent_json(game.away_parent)
@@ -122,6 +163,12 @@ class Round:
                     self._log.error('Wrong parent string')
 
     def fill_games(self, parent_round):
+        """Fill games for non-first rounds
+
+        Args:
+            parent_round (Round)
+        """
+
         for game in self.games.values():
             parent_home_game = parent_round.games.get(game.home_parent)
             if parent_home_game and parent_home_game.finished:
@@ -137,12 +184,20 @@ class Round:
                 else:
                     game.away_team = parent_away_game.get_winner()
 
-
-
-
-
     def _get_parent_json(self, string):
-        """Unnecessary to recompile regex but nice isolation for new data sources"""
+        """Get parent group information
+
+        Determine from which group a first round playoff game will pick its teams.
+        Unnecessary to recompile regex but nice isolation for new data sources
+
+        Args:
+            string (str): JSON data, eg. string = 'winner_b'
+
+        Returns:
+            type_ (str): 'winner' or 'runner_up'
+            group (str): Group ID (in upper case), e.g. 'C'
+
+        """
         pattern = re.compile(r'([a-z]+)_([a-z])')
         match = pattern.match(string)
         type_, group_id = None, None

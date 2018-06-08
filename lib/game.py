@@ -10,8 +10,8 @@ class Game(object):
     Attributes:
         _log (Logger): Logger
         id (int): Unique key
-        home_team (int): Home team ID
-        away_team (int): Away team ID
+        home_team (Team): Home team ID
+        away_team (Team): Away team ID
         game_day (int):
         date (datetime):
         home_result (int): Goals scored by home team
@@ -20,6 +20,7 @@ class Game(object):
     """
 
     def __init__(self):
+        """Init Game"""
         self._log = logging.getLogger(self.__class__.__name__)
         self.id = int()
         self.home_team = Team()
@@ -31,7 +32,39 @@ class Game(object):
 
         self.finished = False
 
+    def __repr__(self):
+        """Representation
+
+        Returns:
+            string (str): Game representation
+        """
+
+        string = 'Game(id: {}, home team_id (score): {} ({}), away team_id (score): {} ({}), date: {})'.format(
+            self.id, self.home_team.id, self.home_result, self.away_team.id, self.away_result, self.date)
+        return string
+
+    def __str__(self):
+        """To string
+
+        Returns:
+            string (str): Game to string
+        """
+
+        if self.home_team and self.away_team:
+            string = '{} - {}'.format(self.home_team.name, self.away_team.name)
+        if self.finished:
+            string += ': {} - {}'.format(self.home_result, self.away_result)
+        string += ' ' + str(self.date)
+        return string
+
     def init_from_json(self, dict_, teams):
+        """Init from github sourced JSON file
+
+        Args:
+            dict_ (dict): Dictionary version of JSON data
+            teams (AttrDict): Dictionary of Team()s
+        """
+
         self.id = dict_.name
         self.home_team = teams.get(dict_.home_team)
         self.away_team = teams.get(dict_.away_team)
@@ -40,15 +73,6 @@ class Game(object):
         self.home_result = dict_.home_result
         self.away_result = dict_.away_result
         self.finished = dict_.finished
-
-    def print(self):
-        string = str()
-        if self.home_team and self.away_team:
-            string = '{} - {}'.format(self.home_team.name, self.away_team.name)
-        if self.finished:
-            string += ': {} - {}'.format(self.home_result, self.away_result)
-        string += ' ' + str(self.date)
-        print(string)
 
 
 class GroupGame(Game):
@@ -59,23 +83,56 @@ class GroupGame(Game):
     """
 
     def __init__(self):
+        """Init group game"""
         super(self.__class__, self).__init__()
         self.group = str()
 
     def set_group(self, group):
+        """Add group affiliation
+
+        Args:
+            group (Group)
+        """
         self.group = group
+
+    def evaluate(self):
+        """Evaluate a group game
+
+        Determine winner, assign points, update goal difference.
+        TODO: Better failed result handling
+        """
+
+        home_team = self.home_team
+        away_team = self.away_team
+        if self.home_result > self.away_result:
+            home_team.points += 3
+        elif self.home_result == self.away_result:
+            home_team.points += 1
+            away_team.points += 1
+        elif self.home_result < self.away_result:
+            away_team.points += 3
+        else:
+            self._log.error('Failed result comparison in game: {}'.format(self.id))
+        home_team.goals += self.home_result
+        home_team.goal_diff += self.home_result - self.away_result
+        away_team.goals += self.away_result
+        away_team.goal_diff += self.away_result - self.home_result
 
 
 class PlayoffGame(Game):
     """Game sub class for playoff
 
     Attributes:
+        order (int): Power of two, showing final distance. (Number of teams in round)
+        self.home_team (Team)
+        self.away_team (Team)
         self.home_parent (int, str): ID of previous game, the winner of which is home team
             If first round of playoff: str, e.g. 'winner_b' = The winner of group B
         self.away_parent (int, str): ID of previous game, the winner of which is away team
     """
 
     def __init__(self):
+        """Init playoff game"""
         super(self.__class__, self).__init__()
         self.order = int()
         self.home_team = None  # Override parent class
@@ -84,15 +141,28 @@ class PlayoffGame(Game):
         self.away_parent = None
 
     def init_from_json(self, dict_, teams):
+        """Init from github sourced JSON file
+
+        Args:
+            dict_ (dict): Dictionary version of JSON data
+            teams (AttrDict): Dictionary of Team()s
+        """
+
         super(self.__class__, self).init_from_json(dict_, teams)
         self.home_parent = dict_.home_team
         self.away_parent = dict_.away_team
 
     def set_order(self, order):
+        """Set order
+
+        Args:
+            order (int):
+
+        """
         self.order = order
 
     def get_winner(self):
-        """TODO raise error"""
+        """Get winner of TODO raise error"""
         if self.home_result > self.away_result:
             winner = self.home_team
         elif self.home_result < self.away_result:
@@ -104,7 +174,7 @@ class PlayoffGame(Game):
         return winner
 
     def get_loser(self):
-        """TODO raise error"""
+        """Get winner of TODO raise error"""
         if self.home_result > self.away_result:
             loser = self.away_team
         elif self.home_result < self.away_result:

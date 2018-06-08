@@ -33,6 +33,7 @@ class Tournament(object):
         Args:
             settings (AttrDict): General settings
         """
+
         self._log = logging.getLogger(self.__class__.__name__)
         self._settings = settings
         self.teams = dict()
@@ -49,12 +50,23 @@ class Tournament(object):
             self._log.error('No other source than Github found yet')
 
     def evaluate(self):
+        """Evaluate tournament"""
         for group in self.groups.values():
             group.evaluate()
         self.playoff.evaluate(self.groups)
 
     def populate(self):
-        """Set current tournament state."""
+        """Set current tournament state.
+
+        From some source of information create:
+        teams,
+        games,
+        groups,
+        playoff
+
+        And cross reference them all with pointers
+        """
+
         src = self._settings.data.src
         self._update_data(src)
         if src == 'github':
@@ -63,6 +75,12 @@ class Tournament(object):
             self._log.error('No other source than Github found yet')
 
     def _update_data(self, src):
+        """Get new data
+
+        Args:
+            src (str): Currently only src='github' supported
+        """
+
         if not os.path.exists(self.data_root):
             os.makedirs(self.data_root)
         if src == 'github':
@@ -71,7 +89,7 @@ class Tournament(object):
             self._log.error('No other source than Github found yet')
 
     def _populate_from_json(self):
-        """Ugly match up to force the Github JSON data to the class structure"""
+        """Ugly mash up to force the Github JSON data to the class structure"""
         self._log.info("Settings teams")
         data_dict = read_json_to_attrdict(os.path.join(self.data_root, self.data_file))
         for team_data in data_dict.teams:
@@ -113,15 +131,25 @@ class Tournament(object):
 
     def _sort_groups(self):
         """Sort groups and group games
+
         Intergroup sort on group name
         Intragroup sort of group matches on date
         """
+
         self.groups = OrderedDict(sorted(self.groups.items(), key=lambda t: t[0]))
         for group in self.groups.values():
             group.sort()
 
     def generate_dummy_results(self, fix_seed=False, playoff=False):
-        """TODO: Fix seed"""
+        """Generate dummy results
+
+        TODO: Fix seed
+
+        Args:
+            fix_seed (bool): Use fix seed for comparison
+            playoff (bool): Generate results for group and playoff
+        """
+
         for game in self.games.values():
             if isinstance(game, GroupGame) or playoff:
                 game.finished = True
