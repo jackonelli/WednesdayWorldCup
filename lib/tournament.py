@@ -70,12 +70,15 @@ class Tournament(object):
 
     def _populate_from_json(self):
         """Ugly match up to force the Github JSON data to the class structure"""
+        self._log.info("Settings teams")
         data_dict = read_json_to_attrdict(os.path.join(self.data_root, self.data_file))
         for team_data in data_dict.teams:
             team = Team()
             team.init_from_json(team_data)
             self.teams[team.id] = team
 
+        self._log.info("Settings groups")
+        data_dict = read_json_to_attrdict(os.path.join(self.data_root, self.data_file))
         for group_id in data_dict.groups:
             group_data = AttrDict(data_dict.groups[group_id])
             group = Group()
@@ -92,6 +95,7 @@ class Tournament(object):
             self.groups[group.id] = group
         self._sort_groups()
 
+        self._log.info("Settings playoff")
         for id_ in data_dict.knockout:
             round_data = AttrDict(data_dict.knockout[id_])
             round_ = Round(id_)

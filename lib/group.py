@@ -48,12 +48,9 @@ class Group:
             self.finished = self.finished and game.finished
 
     def sort(self):
+        """TODO: Sort group on points --> diff --> inbordes games"""
         self.teams.sort(key=lambda team: team.points, reverse=True)
         self.games.sort(key=lambda game: game.date)
-
-        #game_dates = [games[id_].date for id_ in self.games]
-        #self.games = [game for _, game in sorted(zip(game_dates, self.games),
-        #                                         key=lambda pair: pair[0])]
 
     def evaluate(self):
         for game in self.games:
