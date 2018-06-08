@@ -9,6 +9,16 @@ Tournament betting web app.
  - Continuous score
  - Round by round score presentation
 
+## Run
+
+```bash
+git clone
+cd WednesdayWorldCup
+virtualenv -p /usr/bin/python3 venv
+export FLASK_APP=tournament.py
+flask run
+```
+
 ## Inspiration
 
 Bracket design origin:
