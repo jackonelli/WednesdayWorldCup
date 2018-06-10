@@ -5,6 +5,8 @@ import logging
 class Team:
     """Team class
 
+    TODO: Assign rank from somewhere
+
     Attributes:
         _log (Logger): Logger
         id (int): Unique key
@@ -15,6 +17,7 @@ class Team:
         goals (int): Goals scored
         goals_diff (int): goal difference in group play
         games_played (int): Number of games played
+        rank (int): FIFA ranking
     """
 
     def __init__(self):
@@ -29,6 +32,7 @@ class Team:
         self.goals = 0
         self.goal_diff = 0
         self.games_played = 0
+        self.rank = None
 
     def __repr__(self):
         """Representation

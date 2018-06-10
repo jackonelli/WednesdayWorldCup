@@ -106,7 +106,8 @@ class Group:
         TODO: Sort on points --> diff --> goals scored --> inbordes games --> FIFA rank
         """
 
-        self.teams.sort(key=lambda team: team.points, reverse=True)
+        self.teams.sort(key=lambda team: (team.points, team.goal_diff, team.goals, team.rank)
+                        , reverse=True)
         self.games.sort(key=lambda game: game.date)
 
     def evaluate(self):
