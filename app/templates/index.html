@@ -20,7 +20,7 @@
 <div class="container">
     <!-- HEADER TODO: Move to sep. template -->
     <h1>{{tournament._settings.name}}</h1>
-    <h2>Du kanske är starkare än jag - men jag är helt djävla dum i huvet</h2>
+    <h2>{{tournament._settings.sub_name}}</h2>
     <!-- GROUP -->
     <div class="tournament-group tournament-group--rounded">
         <div class="tournament-group__round tournament-group__round--group">
@@ -35,10 +35,10 @@
                             </caption>
                             <thead class="tournament-group__table-header">
                             <tr>
-                                <th>Country</th>
-                                <th>Score</th>
-                                <th>Goals</th>
-                                <th>Goal difference</th>
+                                <th></th>
+                                <th>Pl</th>
+                                <th>+/-</th>
+                                <th>P</th>
                             </tr>
                             </thead>
                             <tbody class="tournament-group__content">
@@ -48,15 +48,15 @@
                                     <abbr class="tournament-group__code" title="{{ team.name }}">{{ team.fifa_code}}</abbr>
                                     <span class="tournament-group__flag flag-icon flag-icon-{{team.iso2}}"
                                           aria-label="Flag"></span>
+                                <td class="tournament-group__goaldiff">
+                                    <span class="tournament-group__number">{{ team.games_played }}</span>
+                                </td>
+                                </td>
+                                    <td class="tournament-group__goals">
+                                    <span class="tournament-group__number">{{ team.goal_diff }}</span>
                                 </td>
                                 <td class="tournament-group__score">
                                     <span class="tournament-group__number">{{ team.points }}</span>
-                                </td>
-                                <td class="tournament-group__goals">
-                                    <span class="tournament-group__number">{{ team.goals }}</span>
-                                </td>
-                                <td class="tournament-group__goaldiff">
-                                    <span class="tournament-group__number">{{ team.goal_diff }}</span>
                                 </td>
                             </tr>
                             {% endfor %}

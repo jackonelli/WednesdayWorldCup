@@ -27,8 +27,8 @@ class Game(object):
         self.away_team = Team()
         self.game_day = int()
         self.date = None
-        self.home_result = '-'
-        self.away_result = '-'
+        self.home_result = None
+        self.away_result = None
 
         self.finished = False
 
@@ -113,10 +113,10 @@ class GroupGame(Game):
             away_team.points += 3
         else:
             self._log.error('Failed result comparison in game: {}'.format(self.id))
-        home_team.goals += self.home_result
         home_team.goal_diff += self.home_result - self.away_result
-        away_team.goals += self.away_result
         away_team.goal_diff += self.away_result - self.home_result
+        home_team.games_played += 1
+        away_team.games_played += 1
 
 
 class PlayoffGame(Game):

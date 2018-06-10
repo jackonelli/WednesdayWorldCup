@@ -13,6 +13,7 @@ class Team:
         group (Group): Group affiliation
         points (int): Points in group play
         goals_diff (int): goal difference in group play
+        games_played (int): Number of games played
     """
 
     def __init__(self):
@@ -24,8 +25,8 @@ class Team:
         self.iso2 = str()
         self.group = str()
         self.points = 0
-        self.goals = 0
         self.goal_diff = 0
+        self.games_played = 0
 
     def __repr__(self):
         """Representation
