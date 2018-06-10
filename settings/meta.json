@@ -26,7 +26,28 @@
     "Svennis"
   ],
   "score": {
-    "outcome": 1,
+    "simple":{
+      "group":{
+
+      },
+      "playoff":{
+        "correct_game":{
+          "16": 4,
+          "8": 5,
+          "4": 7,
+          "2": 9
+        },
+        "wrong_game":{
+          "16": 3,
+          "8": 4,
+          "4": 6
+        }
+      },
+      "winner": 10,
+      "bronze": 5,
+      "top_scorer": 5,
+      "top_scorer_goal": 3
+    },
     "lindqvist_divergence": {
       "k": 3,
       "norm_exponent": 2

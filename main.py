@@ -21,7 +21,6 @@ def main():
     player = Player(settings, 'test_raw')
     player.epa_data_from_xls(tournament.games.keys())
     player.predictions_from_json()
-    print(player.predictions)
 
 
 if __name__ == '__main__':

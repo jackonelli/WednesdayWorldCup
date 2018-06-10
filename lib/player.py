@@ -24,7 +24,7 @@ class Player(object):
         """Init Player
 
         Args:
-            _settings (AttrDict): Meta settings
+            settings (AttrDict): Meta settings
             name (str): Unique player name
         """
         self._log = logging.getLogger(self.__class__.__name__)
@@ -125,12 +125,11 @@ def create_xls_mapping_help(filepath):
 
 
 def main():
-    FILENAME = '/home/jakob/dev/WednesdayWorldCup/data/predictions/test_raw.xls'
-    excel_sheet = read_xls_to_class(FILENAME).sheet_by_name('Tips')
+    filename = '/home/jakob/dev/WednesdayWorldCup/data/predictions/test_raw.xls'
+    excel_sheet = read_xls_to_class(filename).sheet_by_name('Tips')
 
     print(read_cell(excel_sheet, 4, 9))
 
 
 if __name__ == '__main__':
     main()
-
