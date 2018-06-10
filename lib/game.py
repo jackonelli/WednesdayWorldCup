@@ -40,7 +40,7 @@ class Game(object):
         """
 
         string = 'Game(id: {}, home team_id (score): {} ({}), away team_id (score): {} ({}), date: {})'.format(
-            self.id, self.home_team.id, self.home_result, self.away_team.id, self.away_result, self.date)
+            self.id, self.home_team.name, self.home_result, self.away_team.name, self.away_result, self.date)
         return string
 
     def __str__(self):
@@ -49,7 +49,7 @@ class Game(object):
         Returns:
             string (str): Game to string
         """
-
+        string = str()
         if self.home_team and self.away_team:
             string = '{} - {}'.format(self.home_team.name, self.away_team.name)
         if self.finished:
@@ -61,7 +61,7 @@ class Game(object):
         """Init from github sourced JSON file
 
         Args:
-            dict_ (dict): Dictionary version of JSON data
+            dict_ (AttrDict): Dictionary version of JSON data
             teams (AttrDict): Dictionary of Team()s
         """
 
@@ -113,6 +113,8 @@ class GroupGame(Game):
             away_team.points += 3
         else:
             self._log.error('Failed result comparison in game: {}'.format(self.id))
+        home_team.goals += self.home_result
+        away_team.goals += self.away_result
         home_team.goal_diff += self.home_result - self.away_result
         away_team.goal_diff += self.away_result - self.home_result
         home_team.games_played += 1
@@ -144,7 +146,7 @@ class PlayoffGame(Game):
         """Init from github sourced JSON file
 
         Args:
-            dict_ (dict): Dictionary version of JSON data
+            dict_ (AttrDict): Dictionary version of JSON data
             teams (AttrDict): Dictionary of Team()s
         """
 
@@ -162,7 +164,11 @@ class PlayoffGame(Game):
         self.order = order
 
     def get_winner(self):
-        """Get winner of TODO raise error"""
+        """Get winner of  game:
+
+        TODO raise error
+        """
+
         if self.home_result > self.away_result:
             winner = self.home_team
         elif self.home_result < self.away_result:
@@ -174,7 +180,11 @@ class PlayoffGame(Game):
         return winner
 
     def get_loser(self):
-        """Get winner of TODO raise error"""
+        """Get loser of  game:
+
+        TODO raise error
+        """
+
         if self.home_result > self.away_result:
             loser = self.away_team
         elif self.home_result < self.away_result:

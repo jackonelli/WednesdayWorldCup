@@ -103,7 +103,7 @@ class Group:
     def sort(self):
         """Sort group
 
-        TODO: Sort group on points --> diff --> inbordes games
+        TODO: Sort on points --> diff --> goals scored --> inbordes games --> FIFA rank
         """
 
         self.teams.sort(key=lambda team: team.points, reverse=True)
@@ -136,14 +136,18 @@ class Group:
         """
         id_a = team_a.id
         id_b = team_b.id
-        a_games = list()
         correct_game = None
         for game in self.games:
-            if game.home_team.id == id_a or game.away_team.id == id_a:
-                a_games.append(game)
-        for game in a_games:
-            if game.home_team.id == id_b or game.away_team.id == id_b:
-                correct_game = game
+
+            if game.home_team.id == id_a:
+                if game.away_team.id == id_b:
+                    correct_game = game
+                    break
+
+            if game.home_team.id == id_b:
+                if game.away_team.id == id_a:
+                    correct_game = game
+                    break
 
         if not correct_game:
             self._log.error('No game with teams {} and {} in {}'.format(team_a.__str__,

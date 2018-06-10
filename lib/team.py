@@ -12,6 +12,7 @@ class Team:
         iso2 (str): Iso2 code
         group (Group): Group affiliation
         points (int): Points in group play
+        goals (int): Goals scored
         goals_diff (int): goal difference in group play
         games_played (int): Number of games played
     """
@@ -25,6 +26,7 @@ class Team:
         self.iso2 = str()
         self.group = str()
         self.points = 0
+        self.goals = 0
         self.goal_diff = 0
         self.games_played = 0
 
