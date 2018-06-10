@@ -77,16 +77,22 @@ class Tournament(object):
     def _update_data(self, src):
         """Get new data
 
+        TODO: urltime out handle
+
         Args:
             src (str): Currently only src='github' supported
         """
 
-        if not os.path.exists(self.data_root):
-            os.makedirs(self.data_root)
-        if src == 'github':
-            urllib.request.urlretrieve(self.url, os.path.join(self.data_root, self.data_file))
+        local_path = os.path.join(self.data_root, self.data_file)
+        if self._settings.data.refresh or not os.path.exists(local_path):
+            os.makedirs(self.data_root, exist_ok=True)
+            if src == 'github':
+                self._log.info('Downloading new data from {}'.format(self.url))
+                urllib.request.urlretrieve(self.url, os.path.join(self.data_root, self.data_file))
+            else:
+                self._log.error('No other source than Github found yet')
         else:
-            self._log.error('No other source than Github found yet')
+            self._log.info('Not refreshing data from {}'.format(self.url))
 
     def _populate_from_json(self):
         """Ugly mash up to force the Github JSON data to the class structure"""
@@ -158,20 +164,31 @@ class Tournament(object):
                 if isinstance(game, PlayoffGame) and game.home_result == game.away_result:
                     game.home_result += 1
 
+    def generate_results_from_predictions(self, predictions):
+        """Generate results from player predictions
+
+        Args:
+            predictions (dict): game_id: {home: (int), away: (int)}
+        """
+        for id_, game in self.games.items():
+            game.home_result = predictions[id_].home
+            game.away_result = predictions[id_].away
+            game.finished = True
+
     def print_games(self):
         prev_game_day = -1
         for game in sorted(self.games.values(), key=lambda game: game.game_day):
 
             if game.game_day == prev_game_day:
-                game.print()
+                print(game)
             else:
                 print('\nDay: {}\t {}\n'.format(game.game_day, game.date))
-                game.print()
+                print(game)
             prev_game_day = game.game_day
 
     def print_groups(self):
         for _, group in self.groups.items():
-            group.print()
+            print(group)
             print('\n')
 
     def print_playoff(self):
