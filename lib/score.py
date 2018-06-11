@@ -10,17 +10,8 @@ class Score(ABC):
         self._log = logging.getLogger(self.__class__.__name__)
 
     @abstractmethod
-    def get_score(self):
+    def get_score(self, facit, player):
         pass
-
-    @abstractmethod
-    def __str__(self):
-        pass
-
-    @abstractmethod
-    def __repr__(self):
-        pass
-
 
 class SimpleScore(Score):
     """Simple score class"""
@@ -41,5 +32,4 @@ class SimpleScore(Score):
         self.top_scorer_goal = settings.top_scorer_goal
 
     def get_score(self, facit, player):
-        
-
+        return 1

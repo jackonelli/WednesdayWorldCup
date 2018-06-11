@@ -216,5 +216,5 @@ class Round:
         print(self.name)
         print('-------')
         for game in self.games.values():
-            game.print()
+            print(game)
         print('-------')

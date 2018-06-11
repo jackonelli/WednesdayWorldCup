@@ -1,6 +1,6 @@
 app/log/*
+log/*
 .idea/*
-data/*
 venv*
 *__pycache__*
 *.pyc

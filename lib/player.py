@@ -31,7 +31,7 @@ class Player(object):
         self._settings = settings
         self.name = name
         self.predictions = dict()
-        self.score = Score()
+        self.score = 0
 
     def predictions_from_json(self):
         """Game predictions from JSON file.
