@@ -5,6 +5,9 @@ from lib.tournament import Tournament
 from lib.player import Player
 from util.io import read_json_to_attrdict
 from util.log import setup_logger
+from lib.model import PoissonGammaModel
+from lib.fifa_table_parser import get_stats, get_totals
+
 META_SETTINGS = 'settings/meta.json'
 logger = logging.getLogger(__name__)
 
@@ -20,9 +23,15 @@ def main():
     player = Player(settings, 'test')
     #player.epa_data_from_xls(tournament.games.keys())
     player.predictions_from_json()
-    tournament.generate_results_from_predictions(player.predictions)
-    tournament.evaluate()
-    tournament.print_playoff()
+    #  tournament.generate_results_from_predictions(player.predictions)
+    #  tournament.evaluate()
+    game = tournament.games[12]
+    paul = PoissonGammaModel('data/team_stats.json')
+    paul.set_prior_params()
+    paul.sample_game_score(game)
+    game.finished = True
+    print(game)
+
 
 if __name__ == '__main__':
     main()

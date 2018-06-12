@@ -1,0 +1,387 @@
+{
+  "ALG": {
+    "games_played": 13,
+    "goals_conceded": 19,
+    "goals_scored": 13
+  },
+  "ANG": {
+    "games_played": 3,
+    "goals_conceded": 2,
+    "goals_scored": 1
+  },
+  "ARG": {
+    "games_played": 77,
+    "goals_conceded": 84,
+    "goals_scored": 131
+  },
+  "AUS": {
+    "games_played": 13,
+    "goals_conceded": 26,
+    "goals_scored": 11
+  },
+  "AUT": {
+    "games_played": 29,
+    "goals_conceded": 47,
+    "goals_scored": 43
+  },
+  "BEL": {
+    "games_played": 41,
+    "goals_conceded": 66,
+    "goals_scored": 52
+  },
+  "BIH": {
+    "games_played": 3,
+    "goals_conceded": 3,
+    "goals_scored": 4
+  },
+  "BOL": {
+    "games_played": 6,
+    "goals_conceded": 20,
+    "goals_scored": 1
+  },
+  "BRA": {
+    "games_played": 104,
+    "goals_conceded": 102,
+    "goals_scored": 221
+  },
+  "BUL": {
+    "games_played": 26,
+    "goals_conceded": 53,
+    "goals_scored": 22
+  },
+  "CAN": {
+    "games_played": 3,
+    "goals_conceded": 5,
+    "goals_scored": 0
+  },
+  "CHI": {
+    "games_played": 33,
+    "goals_conceded": 49,
+    "goals_scored": 40
+  },
+  "CHN": {
+    "games_played": 3,
+    "goals_conceded": 9,
+    "goals_scored": 0
+  },
+  "CIV": {
+    "games_played": 9,
+    "goals_conceded": 14,
+    "goals_scored": 13
+  },
+  "CMR": {
+    "games_played": 23,
+    "goals_conceded": 43,
+    "goals_scored": 18
+  },
+  "COD": {
+    "games_played": 3,
+    "goals_conceded": 14,
+    "goals_scored": 0
+  },
+  "COL": {
+    "games_played": 18,
+    "goals_conceded": 27,
+    "goals_scored": 26
+  },
+  "CRC": {
+    "games_played": 15,
+    "goals_conceded": 23,
+    "goals_scored": 17
+  },
+  "CRO": {
+    "games_played": 16,
+    "goals_conceded": 17,
+    "goals_scored": 21
+  },
+  "CUB": {
+    "games_played": 3,
+    "goals_conceded": 12,
+    "goals_scored": 5
+  },
+  "CZE": {
+    "games_played": 33,
+    "goals_conceded": 49,
+    "goals_scored": 47
+  },
+  "DEN": {
+    "games_played": 16,
+    "goals_conceded": 24,
+    "goals_scored": 27
+  },
+  "ECU": {
+    "games_played": 10,
+    "goals_conceded": 11,
+    "goals_scored": 10
+  },
+  "EGY": {
+    "games_played": 4,
+    "goals_conceded": 6,
+    "goals_scored": 3
+  },
+  "ENG": {
+    "games_played": 62,
+    "goals_conceded": 56,
+    "goals_scored": 79
+  },
+  "ESP": {
+    "games_played": 59,
+    "goals_conceded": 66,
+    "goals_scored": 92
+  },
+  "FRA": {
+    "games_played": 59,
+    "goals_conceded": 71,
+    "goals_scored": 106
+  },
+  "GDR": {
+    "games_played": 6,
+    "goals_conceded": 5,
+    "goals_scored": 5
+  },
+  "GER": {
+    "games_played": 106,
+    "goals_conceded": 121,
+    "goals_scored": 224
+  },
+  "GHA": {
+    "games_played": 12,
+    "goals_conceded": 16,
+    "goals_scored": 13
+  },
+  "GRE": {
+    "games_played": 10,
+    "goals_conceded": 20,
+    "goals_scored": 5
+  },
+  "HAI": {
+    "games_played": 3,
+    "goals_conceded": 14,
+    "goals_scored": 2
+  },
+  "HON": {
+    "games_played": 9,
+    "goals_conceded": 14,
+    "goals_scored": 3
+  },
+  "HUN": {
+    "games_played": 32,
+    "goals_conceded": 57,
+    "goals_scored": 87
+  },
+  "IDN": {
+    "games_played": 1,
+    "goals_conceded": 6,
+    "goals_scored": 0
+  },
+  "IRL": {
+    "games_played": 13,
+    "goals_conceded": 10,
+    "goals_scored": 10
+  },
+  "IRN": {
+    "games_played": 12,
+    "goals_conceded": 22,
+    "goals_scored": 7
+  },
+  "IRQ": {
+    "games_played": 3,
+    "goals_conceded": 4,
+    "goals_scored": 1
+  },
+  "ISR": {
+    "games_played": 3,
+    "goals_conceded": 3,
+    "goals_scored": 1
+  },
+  "ITA": {
+    "games_played": 83,
+    "goals_conceded": 77,
+    "goals_scored": 128
+  },
+  "JAM": {
+    "games_played": 3,
+    "goals_conceded": 9,
+    "goals_scored": 3
+  },
+  "JPN": {
+    "games_played": 17,
+    "goals_conceded": 22,
+    "goals_scored": 14
+  },
+  "KOR": {
+    "games_played": 31,
+    "goals_conceded": 67,
+    "goals_scored": 31
+  },
+  "KSA": {
+    "games_played": 13,
+    "goals_conceded": 32,
+    "goals_scored": 9
+  },
+  "KUW": {
+    "games_played": 3,
+    "goals_conceded": 6,
+    "goals_scored": 2
+  },
+  "MAR": {
+    "games_played": 13,
+    "goals_conceded": 18,
+    "goals_scored": 12
+  },
+  "MEX": {
+    "games_played": 53,
+    "goals_conceded": 92,
+    "goals_scored": 57
+  },
+  "NED": {
+    "games_played": 50,
+    "goals_conceded": 48,
+    "goals_scored": 86
+  },
+  "NGA": {
+    "games_played": 18,
+    "goals_conceded": 26,
+    "goals_scored": 20
+  },
+  "NIR": {
+    "games_played": 13,
+    "goals_conceded": 23,
+    "goals_scored": 13
+  },
+  "NOR": {
+    "games_played": 8,
+    "goals_conceded": 8,
+    "goals_scored": 7
+  },
+  "NZL": {
+    "games_played": 6,
+    "goals_conceded": 14,
+    "goals_scored": 4
+  },
+  "PAR": {
+    "games_played": 27,
+    "goals_conceded": 38,
+    "goals_scored": 30
+  },
+  "PER": {
+    "games_played": 15,
+    "goals_conceded": 31,
+    "goals_scored": 19
+  },
+  "POL": {
+    "games_played": 31,
+    "goals_conceded": 40,
+    "goals_scored": 44
+  },
+  "POR": {
+    "games_played": 26,
+    "goals_conceded": 29,
+    "goals_scored": 43
+  },
+  "PRK": {
+    "games_played": 7,
+    "goals_conceded": 21,
+    "goals_scored": 6
+  },
+  "ROU": {
+    "games_played": 21,
+    "goals_conceded": 32,
+    "goals_scored": 30
+  },
+  "RSA": {
+    "games_played": 9,
+    "goals_conceded": 16,
+    "goals_scored": 11
+  },
+  "RUS": {
+    "games_played": 40,
+    "goals_conceded": 47,
+    "goals_scored": 66
+  },
+  "SCO": {
+    "games_played": 23,
+    "goals_conceded": 41,
+    "goals_scored": 25
+  },
+  "SEN": {
+    "games_played": 5,
+    "goals_conceded": 6,
+    "goals_scored": 7
+  },
+  "SLV": {
+    "games_played": 6,
+    "goals_conceded": 22,
+    "goals_scored": 1
+  },
+  "SRB": {
+    "games_played": 43,
+    "goals_conceded": 59,
+    "goals_scored": 64
+  },
+  "SUI": {
+    "games_played": 33,
+    "goals_conceded": 59,
+    "goals_scored": 45
+  },
+  "SVK": {
+    "games_played": 4,
+    "goals_conceded": 7,
+    "goals_scored": 5
+  },
+  "SVN": {
+    "games_played": 6,
+    "goals_conceded": 10,
+    "goals_scored": 5
+  },
+  "SWE": {
+    "games_played": 46,
+    "goals_conceded": 69,
+    "goals_scored": 74
+  },
+  "TOG": {
+    "games_played": 3,
+    "goals_conceded": 6,
+    "goals_scored": 1
+  },
+  "TRI": {
+    "games_played": 3,
+    "goals_conceded": 4,
+    "goals_scored": 0
+  },
+  "TUN": {
+    "games_played": 12,
+    "goals_conceded": 17,
+    "goals_scored": 8
+  },
+  "TUR": {
+    "games_played": 10,
+    "goals_conceded": 17,
+    "goals_scored": 20
+  },
+  "UAE": {
+    "games_played": 3,
+    "goals_conceded": 11,
+    "goals_scored": 2
+  },
+  "UKR": {
+    "games_played": 5,
+    "goals_conceded": 7,
+    "goals_scored": 5
+  },
+  "URU": {
+    "games_played": 51,
+    "goals_conceded": 71,
+    "goals_scored": 80
+  },
+  "USA": {
+    "games_played": 33,
+    "goals_conceded": 62,
+    "goals_scored": 37
+  },
+  "WAL": {
+    "games_played": 5,
+    "goals_conceded": 4,
+    "goals_scored": 4
+  }
+}
