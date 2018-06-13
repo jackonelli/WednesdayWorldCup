@@ -31,8 +31,8 @@ class PoissonGammaModel(object):
 
     def get_posterior_params(self, team):
         """https://www.quora.com/What-is-an-intuitive-explanation-for-why-Gamma-is-the-conjugate-prior-for-a-Poisson#"""
-        alpha_attack = self.alpha_attack + self.stats[team.fifa_code]['goals_scored']
-        alpha_defence = self.alpha_defence + self.stats[team.fifa_code]['goals_conceded']
+        alpha_attack = self.alpha_attack + self.stats.get([team.fifa_code])['goals_scored']
+        alpha_defence = self.alpha_defence + self.stats.get([team.fifa_code])['goals_conceded']
         beta = self.beta + self.stats[team.fifa_code]['games_played']
 
         return alpha_attack, alpha_defence, beta
