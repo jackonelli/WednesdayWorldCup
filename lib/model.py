@@ -20,8 +20,8 @@ class PoissonGammaModel(object):
     def __str__(self):
         string = 'Poisson Gamma model: alpha_attack: {}, beta: {},' \
                  ' alpha_defence: {}'.format(self.alpha_attack,
-                                                              self.beta,
-                                                              self.alpha_defence)
+                                             self.beta,
+                                             self.alpha_defence)
         return string
 
     def set_prior_params(self):
@@ -31,9 +31,15 @@ class PoissonGammaModel(object):
 
     def get_posterior_params(self, team):
         """https://www.quora.com/What-is-an-intuitive-explanation-for-why-Gamma-is-the-conjugate-prior-for-a-Poisson#"""
-        alpha_attack = self.alpha_attack + self.stats.get([team.fifa_code])['goals_scored']
-        alpha_defence = self.alpha_defence + self.stats.get([team.fifa_code])['goals_conceded']
-        beta = self.beta + self.stats[team.fifa_code]['games_played']
+        team_stats = self.stats.get(team.fifa_code)
+        if team_stats:
+            alpha_attack = self.alpha_attack + team_stats.get('goals_scored')
+            alpha_defence = self.alpha_defence + team_stats.get('goals_conceded')
+            beta = self.beta + self.stats[team.fifa_code]['games_played']
+        else:
+            alpha_attack = self.alpha_attack
+            alpha_defence = self.alpha_defence
+            beta = self.beta
 
         return alpha_attack, alpha_defence, beta
 
@@ -49,14 +55,15 @@ class PoissonGammaModel(object):
 
     @staticmethod
     def get_lambda_sample(alpha_att, beta_att, alpha_def, beta_def):
-        lambda_att = gamma.rvs(alpha_att, scale=1/beta_att)
-        lambda_def = gamma.rvs(alpha_def, scale=1/beta_def)
+        lambda_att = gamma.rvs(alpha_att, scale=1 / beta_att)
+        lambda_def = gamma.rvs(alpha_def, scale=1 / beta_def)
 
         return (lambda_att + lambda_def) / 2
 
 
 def main():
     paul = PoissonGammaModel('../data/team_stats.json')
+
 
 if __name__ == '__main__':
     main()
