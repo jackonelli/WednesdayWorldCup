@@ -20,6 +20,10 @@ export FLASK_APP=tournament.py
 flask run
 ```
 
+## TODO
+
+  Migrate to pipenv
+
 ## Inspiration
 
 Bracket design origin:

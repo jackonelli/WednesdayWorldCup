@@ -24,6 +24,7 @@ def read_json_to_attrdict(filepath):
     if os.path.exists(filepath):
         _, ext = os.path.splitext(filepath)
         if ext == '.json':
+            print(filepath)
             with open(filepath, 'r') as json_file:
                 dict_ = json.load(json_file, object_pairs_hook=OrderedDict)
             return AttrDict(dict_)

@@ -84,7 +84,7 @@ class GroupGame(Game):
 
     def __init__(self):
         """Init group game"""
-        super(self.__class__, self).__init__()
+        super().__init__()
         self.group = str()
 
     def set_group(self, group):
@@ -135,7 +135,7 @@ class PlayoffGame(Game):
 
     def __init__(self):
         """Init playoff game"""
-        super(self.__class__, self).__init__()
+        super().__init__()
         self.order = int()
         self.home_team = None  # Override parent class
         self.away_team = None
@@ -150,7 +150,7 @@ class PlayoffGame(Game):
             teams (AttrDict): Dictionary of Team()s
         """
 
-        super(self.__class__, self).init_from_json(dict_, teams)
+        super().init_from_json(dict_, teams)
         self.home_parent = dict_.home_team
         self.away_parent = dict_.away_team
 

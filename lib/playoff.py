@@ -199,6 +199,7 @@ class Round:
 
         """
         pattern = re.compile(r'([a-z]+)_([a-z])')
+
         match = pattern.match(string)
         type_, group_id = None, None
         if match:

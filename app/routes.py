@@ -9,10 +9,7 @@ def tournament():
     settings = app.config['SETTINGS']
     settings['root'] = app.config['ROOT']
     world_cup = Tournament(settings)
-    player = Player(settings, 'test')
-    player.predictions_from_json()
     world_cup.populate()
-    world_cup.generate_results_from_predictions(player.predictions)
-    world_cup.evaluate()
+#    world_cup.evaluate()
 
     return render_template('index.html', tournament=world_cup)

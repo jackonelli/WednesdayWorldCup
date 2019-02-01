@@ -1,10 +1,11 @@
 """Tournament module"""
 import os
 import logging
-from attrdict import AttrDict
 from collections import OrderedDict
 import urllib.request
 import random
+from pathlib import Path
+from attrdict import AttrDict
 from util.io import read_json_to_attrdict
 from lib.team import Team
 from lib.group import Group
@@ -44,8 +45,8 @@ class Tournament(object):
         # In case of JSON file from Github
         if settings.data.src == 'github':
             self.url = settings.data.url
-            self.data_root = os.path.join(self._settings.root, self._settings.data.dir)
-            self.data_file = 'data' + self._settings.data.extension
+            self.data_root = Path(self._settings.root) / self._settings.data.dir
+            self.data_file = self.data_root / self._settings.data.file
         else:
             self._log.error('No other source than Github found yet')
 
@@ -63,7 +64,6 @@ class Tournament(object):
         games,
         groups,
         playoff
-
         And cross reference them all with pointers
         """
 
@@ -83,12 +83,13 @@ class Tournament(object):
             src (str): Currently only src='github' supported
         """
 
-        local_path = os.path.join(self.data_root, self.data_file)
-        if self._settings.data.refresh or not os.path.exists(local_path):
-            os.makedirs(self.data_root, exist_ok=True)
+        if self._settings.data.refresh or not self.data_file.exists():
+            self.data_root.mkdir(exist_ok=True)
             if src == 'github':
                 self._log.info('Downloading new data from {}'.format(self.url))
-                urllib.request.urlretrieve(self.url, os.path.join(self.data_root, self.data_file))
+                urllib.request.urlretrieve(self.url,
+                                           os.path.join(self.data_root,
+                                                        self.data_file))
             else:
                 self._log.error('No other source than Github found yet')
         else:
@@ -96,19 +97,20 @@ class Tournament(object):
 
     def _populate_from_json(self):
         """Ugly mash up to force the Github JSON data to the class structure"""
-        self._log.info("Settings teams")
-        data_dict = read_json_to_attrdict(os.path.join(self.data_root, self.data_file))
+        self._log.info("Setting teams")
+
+        data_dict = read_json_to_attrdict(self.data_file)
         for team_data in data_dict.teams:
             team = Team()
             team.init_from_json(team_data)
             self.teams[team.id] = team
 
-        self._log.info("Settings groups")
-        data_dict = read_json_to_attrdict(os.path.join(self.data_root, self.data_file))
+        self._log.info("Setting groups")
         for group_id in data_dict.groups:
             group_data = AttrDict(data_dict.groups[group_id])
             group = Group()
-            group.init_from_json(group_data, self._settings.naming.group_prefix)
+            group.init_from_json(group_data,
+                                 self._settings.naming.group_prefix)
             for game_data in group_data.matches:
                 game = GroupGame()
                 game.init_from_json(game_data, self.teams)
@@ -142,7 +144,8 @@ class Tournament(object):
         Intragroup sort of group matches on date
         """
 
-        self.groups = OrderedDict(sorted(self.groups.items(), key=lambda t: t[0]))
+        self.groups = OrderedDict(sorted(self.groups.items(),
+                                         key=lambda t: t[0]))
         for group in self.groups.values():
             group.sort()
 
@@ -177,7 +180,8 @@ class Tournament(object):
 
     def print_games(self):
         prev_game_day = -1
-        for game in sorted(self.games.values(), key=lambda game: game.game_day):
+        for game in sorted(self.games.values(),
+                           key=lambda game: game.game_day):
 
             if game.game_day == prev_game_day:
                 print(game)
