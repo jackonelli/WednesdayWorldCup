@@ -31,3 +31,6 @@ https://codepen.io/jimmyhayek/pen/yJkdEB/
 
 Plot:
 https://www.youtube.com/watch?v=BIttXQO0bXw
+
+Vue:
+https://github.com/kamilwylegala/vue-tournament-bracket
